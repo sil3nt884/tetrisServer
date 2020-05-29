@@ -2,11 +2,10 @@ const Events = require('events');
 
 module.exports = class broker extends Events {
 
-	constructor() {
+	constructor(config) {
 		super();
-		this.endPoints = ['/connect', '/data']
+		this.endPoints = config.endPoints;
 	}
-
 	emit(...args) {
 		super.emit(...args);
 	}

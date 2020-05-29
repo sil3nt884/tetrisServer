@@ -1,7 +1,8 @@
 const Broker = require('./MessageBroker/broker');
-const messageBroker = new Broker();
-const plugins = require('./plugins/index');
 const getConfig = require('./utils/config');
+const messageBroker = new Broker(getConfig);
+const plugins = require('./plugins/index');
+
 
 const init = () => {
 	Object.keys(plugins).forEach(e => plugins[e](messageBroker,getConfig ));
