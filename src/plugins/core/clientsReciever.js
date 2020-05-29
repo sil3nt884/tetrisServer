@@ -3,7 +3,6 @@ module.exports = async (broker) => {
     let countOfClients = 0;
 
     await broker.until("server listening");
-    // eslint-disable-next-line no-console
     console.log("ready for clients");
 
     broker.on("connected client", ({request, response}) => {
