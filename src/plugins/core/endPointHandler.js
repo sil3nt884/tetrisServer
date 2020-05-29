@@ -8,7 +8,7 @@ module.exports = (broker, config) => {
         broker.emit("connected client", {socket: request.socket, response});
     });
 
-    broker.on("/data", ({request,  response}) => {
+    broker.on("/data", ({ request,  response }) => {
 
     });
 
