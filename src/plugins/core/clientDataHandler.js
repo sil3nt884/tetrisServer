@@ -8,7 +8,7 @@ module.exports = (broker) => {
             "Access-Control-Max-Age": 2592000 // 30 days
             /** add other headers as per requirement */
         };
-        response.writeHead(headers, 200);
+        response.writeHead(200, headers);
         response.end();
     });
 
