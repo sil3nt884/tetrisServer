@@ -17,14 +17,11 @@ module.exports = (broker) => {
             let attached = clientsObj[key].attachedDataListener;
             if (!attached) {
             	let body = "";
-                let isPost  = clientsObj[key].request.method  === "POST";
-                if (isPost) {
-                    clientsObj[key].request.on("data", chunk => {
-                        body += chunk;
-                    });
-                }
+                clientsObj[key].request.on("data", chunk => {
+                    body += chunk;
+                });
                 clientsObj[key].request.on("end", () => {
-                    broker.emit("client data", body);
+                    broker.emit("client data", {body, response: clientsObj[key].response});
                 });
 
                 clientsObj[key].attachedDataListener = true;
