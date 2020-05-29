@@ -6,5 +6,6 @@ module.exports = {
         "one-var": "off",
         "max-len": "off",
         "no-mixed-spaces-and-tabs": "off"
+
     }
 };

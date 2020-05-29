@@ -10,7 +10,9 @@ module.exports = (broker, config) => {
             },
             (request, response) => {
                 broker.requestEmit(request.url, {request,  response});
-                broker.emit("server listening");
+
             })
-        .listen(8000);
+        .listen(config.port, () => {
+            broker.emit("server listening");
+        });
 };

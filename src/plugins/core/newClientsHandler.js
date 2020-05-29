@@ -1,25 +1,32 @@
 module.exports = (broker) => {
     let clientsObj = {},
         ids = 0;
-    broker.on("new client added", ({socket, response}) => {
-        clientsObj[socket.address().address + ":" + ids] = {
+    broker.on("new client added", ({request, response}) => {
+        clientsObj[request.connection.remoteAddress] = {
             clientId: ids,
             attachedDataListener: false,
-            socket,
+            request,
             response
         };
         ids++;
+        // console.log(clientsObj);
     });
 
     broker.on("updated client list", () => {
         Object.keys(clientsObj).forEach(key => {
             let attached = clientsObj[key].attachedDataListener;
             if (!attached) {
-                clientsObj[key].socket.on("data", (data) => {
-                    broker.emit("client data", {
-                        clientId: key, data: String(data), clientsObj
+            	let body = "";
+                let isPost  = clientsObj[key].request.method  === "POST";
+                if (isPost) {
+                    clientsObj[key].request.on("data", chunk => {
+                        body += chunk;
                     });
+                }
+                clientsObj[key].request.on("end", () => {
+                    broker.emit("client data", body);
                 });
+
                 clientsObj[key].attachedDataListener = true;
             }
         });

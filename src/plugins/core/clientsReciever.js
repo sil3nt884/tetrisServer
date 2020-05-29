@@ -6,8 +6,8 @@ module.exports = async (broker) => {
     // eslint-disable-next-line no-console
     console.log("ready for clients");
 
-    broker.on("connected client", ({socket, response}) => {
-        clients.push({ socket, response });
+    broker.on("connected client", ({request, response}) => {
+        clients.push({ request, response });
     });
 
     const pollForNewClients =  () => {
