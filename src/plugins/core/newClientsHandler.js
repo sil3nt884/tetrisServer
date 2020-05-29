@@ -1,14 +1,14 @@
 module.exports = (broker) => {
 	let clientsObj = {};
 	let ids = 0;
-	broker.on('new client added', (socket)=> {
+	broker.on('new client added', ({socket, response})=> {
 		clientsObj[socket.address().address+':'+ids] = {
 			clientId: ids,
 			attachedDataListener: false,
-			socket
+			socket,
+			response
 		};
 		ids++;
-		socket.write('hello \n', 'utf8')
 	});
 
 	broker.on('updated client list',() => {

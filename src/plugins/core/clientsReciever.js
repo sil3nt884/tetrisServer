@@ -5,8 +5,8 @@ module.exports = async (broker) => {
 	await broker.until('server listening');
 	console.log('ready for clients');
 
-	broker.on('connected client', socket => {
-		clients.push(socket)
+	broker.on('connected client', ({socket, response}) => {
+		clients.push({ socket, response })
 	})
 
 	const pollForNewClients =  () => {

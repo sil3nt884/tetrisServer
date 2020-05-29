@@ -3,9 +3,9 @@ const net = require('net');
 module.exports = (broker, config) => {
 
 	let server = net.createServer(socket => {
-			socket.on('error', (err)=> {
-		  	broker.emit('server error', err)
-			})
+		socket.on('error', (err)=> {
+			broker.emit('server error', err)
+		})
 	});
 
 	server.listen(config.serverPort, ()=> {

@@ -4,6 +4,7 @@ module.exports = class broker extends Events {
 
 	constructor() {
 		super();
+		this.endPoints = ['/connect', '/data']
 	}
 
 	emit(...args) {
@@ -20,6 +21,13 @@ module.exports = class broker extends Events {
 				resolve(data);
 			});
 		});
+	}
+
+	requestEmit(endPoint, { request,  response }) {
+		let isExist = this.endPoints.filter(e => e === endPoint).length > 0;
+		if(isExist) {
+			super.emit(endPoint, { request, response })
+		}
 	}
 
 };
