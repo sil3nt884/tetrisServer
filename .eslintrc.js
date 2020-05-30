@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
 module.exports = {
-    extends: "fbjs/strict",
-    rules :{
-        "one-var": "off",
-        "max-len": "off",
-        "no-mixed-spaces-and-tabs": "off"
-
-    }
-};
+  extends: 'standard',
+  rules: {
+    'one-var': 'off',
+    'max-len': 'off',
+    'no-mixed-spaces-and-tabs': 'off',
+    quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }]
+  }
+}
