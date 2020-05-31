@@ -3,7 +3,7 @@ const config = {
   key: process.env.serverKey || 'src/cert/server.key',
   cert: process.env.serverCert || 'src/cert/server.cert',
   port: process.env.serverPort || 8000,
-  endPoints: ['/connect', '/data']
+  endPoints: ['/connect', '/data', '/players', '/get-data']
 }
 
 module.exports = config

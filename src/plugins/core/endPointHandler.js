@@ -24,4 +24,18 @@ module.exports = (broker, config) => {
       })
     }
   })
+
+  broker.on('/players', ({ request, response }) => {
+    if (Object.keys(clients).length > 1) {
+      const headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS, POST, GET',
+        'Access-Control-Max-Age': 2592000,
+        'Access-Control-Allow-Headers': '*'// 30 days
+        /** add other headers as per requirement */
+      }
+      response.writeHead(200, headers)
+      response.end()
+    }
+  })
 }
