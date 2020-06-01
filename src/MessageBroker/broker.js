@@ -25,7 +25,7 @@ module.exports = class broker extends Events {
   requestEmit (endpoint, { request, response }) {
     const isExist = this.endPoints.filter(element => endpoint.includes(element)).length > 0;
     if (isExist) {
-      super.emit(endpoint, { request, response })
+      super.emit(endpoint.split('?')[0], { request, response })
     }
   }
 }

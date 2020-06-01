@@ -8,6 +8,7 @@ module.exports = (broker) => {
       'Access-Control-Allow-Headers': '*'// 30 days
       /** add other headers as per requirement */
     }
+    broker.emit('player object', body);
     response.writeHead(200, headers)
     response.end()
   })
