@@ -22,10 +22,10 @@ module.exports = class broker extends Events {
     })
   }
 
-  requestEmit (endPoint, { request, response }) {
-    const isExist = this.endPoints.filter(e => e === endPoint).length > 0
+  requestEmit (endpoint, { request, response }) {
+    const isExist = this.endPoints.filter(element => endpoint.includes(element)).length > 0;
     if (isExist) {
-      super.emit(endPoint, { request, response })
+      super.emit(endpoint, { request, response })
     }
   }
 }
