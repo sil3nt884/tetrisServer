@@ -1,4 +1,3 @@
-const crypto = require('crypto');
 
 module.exports = async (broker) => {
   const clients = []
@@ -7,20 +6,13 @@ module.exports = async (broker) => {
   await broker.until('server listening')
   console.log('ready for clients')
 
-  const generatePlayerId = () => crypto.createHash("sha256").update(new Date().toISOString() + clients.length).digest("hex");
-
   broker.on('connected client', ({ request, response }) => {
     clients.push({ request, response })
-    const headers = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'OPTIONS, POST, GET',
-      'Access-Control-Max-Age': 2592000,
-      'Access-Control-Allow-Headers': '*'// 30 days
-      /** add other headers as per requirement */
-    }
-    response.writeHead(200, headers);
-    response.write(generatePlayerId());
-    response.end();
+    broker.once('last client to join', (clientsObj) => {
+      console.log('send client id')
+      response.send(String(clientsObj.clientId))
+      response.end()
+    })
   })
 
   const pollForNewClients = () => {
