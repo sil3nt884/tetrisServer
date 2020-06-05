@@ -19,14 +19,16 @@ module.exports = (broker, config) => {
         body += data
       })
       request.on('end', (data) => {
+        clients[address].data = body
         broker.emit('client data', { body, response })
       })
     }
   })
 
   broker.on('/players', ({ request, response }) => {
+    // console.log('players id ', request.connection.remoteAddress, clients[request.connection.remoteAddress])
     console.log('Object length', Object.keys(clients).length)
-    if (Object.keys(clients).length >= 1) {
+    if (Object.keys(clients).length >= 2) {
       response.set({
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
@@ -50,21 +52,23 @@ module.exports = (broker, config) => {
   })
 
   broker.on('/get-data', ({ request, response }) => {
-    // If a GET request is received
-    const address = request.connection.remoteAddress
-    // Take a player id
-    const playerId = new URL(`https://${request.headers.host}${request.url}`).searchParams
-
-    // Only if two players connected
-    if (Object.keys(clients).length > 1) {
-      // Send player 2 object
-      broker.on('player object', (body) => {
-        response.send(body)
-        response.end()
+    if (Object.keys(clients).length >= 2) {
+      const address = request.connection.remoteAddress
+      const otherClient = Object.keys(clients).filter(key => key !== address)[0]
+      console.log('send players client id ', otherClient)
+      response.set({
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        Connection: 'keep-alive'
       })
-    } else {
-      response.sendStatus(404)
-      response.end()
+      console.log('sending player object', clients[otherClient])
+      const playerData = clients[otherClient].data
+      if (clients[otherClient].data) {
+        const data = `data: ${playerData}\n\n`
+        response.flushHeaders()
+        response.write(data)
+        response.end()
+      }
     }
   })
 }
