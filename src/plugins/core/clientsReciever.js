@@ -9,8 +9,8 @@ module.exports = async (broker) => {
   broker.on('connected client', ({ request, response }) => {
     clients.push({ request, response })
     broker.once('last client to join', (clientsObj) => {
-      console.log('send client id')
-      response.send(String(clientsObj.clientId))
+      console.log(clientsObj.clientId)
+      response.send(clientsObj.clientId)
       response.end()
     })
   })
