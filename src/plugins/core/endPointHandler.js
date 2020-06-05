@@ -25,9 +25,26 @@ module.exports = (broker, config) => {
   })
 
   broker.on('/players', ({ request, response }) => {
-    console.log(Object.keys(clients).length)
-    if (Object.keys(clients).length >= 2) {
-      response.sendStatus(200)
+    console.log('Object length', Object.keys(clients).length)
+    if (Object.keys(clients).length >= 1) {
+      response.set({
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        Connection: 'keep-alive'
+      })
+      const data = 'data: ok\n\n'
+      response.flushHeaders()
+      response.write(data)
+      response.end()
+    } else {
+      response.set({
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        Connection: 'keep-alive'
+      })
+      response.flushHeaders()
+      const data = 'data: not ready\n\n'
+      response.write(data)
       response.end()
     }
   })

@@ -23,6 +23,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-standard": "^4.0.1",
+    "spdy": "^4.0.2",
     "standard": "^14.3.4"
   },
   "dependencies": {

@@ -10,6 +10,8 @@ module.exports = (broker) => {
       }
       lastClientObj = clientsObj[request.connection.remoteAddress]
       broker.emit('last client to join', lastClientObj)
+    } else {
+      response.end()
     }
   })
   broker.on('updated client list', () => broker.emit('updated client Object', clientsObj))
