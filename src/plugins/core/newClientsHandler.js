@@ -6,7 +6,7 @@ module.exports = (broker) => {
     const generatePlayerId = () => crypto.createHash('sha256').update(new Date().toISOString() + Object.keys(clientsObj).length).digest('hex')
     if (!clientsObj[request.connection.remoteAddress]) {
       clientsObj[request.connection.remoteAddress] = {
-        clientId: generatePlayerId()
+        id: generatePlayerId()
       }
       lastClientObj = clientsObj[request.connection.remoteAddress]
       broker.emit('last client to join', lastClientObj)
