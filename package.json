@@ -23,11 +23,11 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-standard": "^4.0.1",
-    "spdy": "^4.0.2",
     "standard": "^14.3.4"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "spdy": "^4.0.2"
   }
 }
