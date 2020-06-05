@@ -19,7 +19,7 @@ module.exports = (broker, config) => {
         body += data
       })
       request.on('end', (data) => {
-        clients[address].data = body
+        clients[address].data = JSON.parse(body)
         broker.emit('client data', { body, response })
       })
     }
