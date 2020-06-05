@@ -55,16 +55,16 @@ module.exports = (broker, config) => {
     if (Object.keys(clients).length >= 2) {
       const address = request.connection.remoteAddress
       const otherClient = Object.keys(clients).filter(key => key !== address)[0]
-      console.log('send players client id ', otherClient)
       response.set({
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
         Connection: 'keep-alive'
       })
-      console.log('sending player object', clients[otherClient])
-      const playerData = clients[otherClient].data
       if (clients[otherClient].data) {
-        const data = `data: ${playerData}\n\n`
+        const id = clients[otherClient].id
+        const playerData = clients[otherClient].data
+        playerData.id = id
+        const data = `data: ${JSON.stringify(playerData)}\n\n`
         response.flushHeaders()
         response.write(data)
         response.end()
