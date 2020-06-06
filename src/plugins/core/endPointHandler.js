@@ -60,6 +60,7 @@ module.exports = (broker, config) => {
         'Cache-Control': 'no-cache',
         Connection: 'keep-alive'
       })
+      console.log('OTHER CLIENT DATA: ', clients[otherClient].data);
       if (clients[otherClient].data) {
         const id = clients[otherClient].id
         const playerData = clients[otherClient].data
@@ -67,6 +68,10 @@ module.exports = (broker, config) => {
         const data = `data: ${JSON.stringify(playerData)}\n\n`
         response.flushHeaders()
         response.write(data)
+        response.end()
+      } else {
+        response.writeHead(404)
+        response.flushHeaders()
         response.end()
       }
     }
