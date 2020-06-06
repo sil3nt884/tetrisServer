@@ -4,15 +4,13 @@ module.exports = (broker) => {
   let lastClientObj
   broker.on('new client added', ({ request, response }) => {
     const generatePlayerId = () => crypto.createHash('sha256').update(new Date().toISOString() + Object.keys(clientsObj).length).digest('hex')
-    if (!clientsObj[request.connection.remoteAddress]) {
-      clientsObj[request.connection.remoteAddress] = {
-        id: generatePlayerId()
-      }
-      lastClientObj = clientsObj[request.connection.remoteAddress]
-      broker.emit('last client to join', lastClientObj)
-    } else {
-      response.end()
+    clientsObj[request.connection.remoteAddress] = {
+      id: generatePlayerId()
     }
+    lastClientObj = clientsObj[request.connection.remoteAddress]
+    console.log('lastClientObj: ', lastClientObj);
+    broker.emit('last client to join', lastClientObj)
+    response.end()
   })
   broker.on('updated client list', () => broker.emit('updated client Object', clientsObj))
 }
