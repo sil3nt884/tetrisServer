@@ -9,7 +9,7 @@ module.exports = async (broker) => {
   broker.on('connected client', ({ request, response }) => {
     clients.push({ request, response })
     broker.once('last client to join', (clientsObj) => {
-      console.log(clientsObj.id)
+      console.log('ID FROM BACKEND: ', clientsObj.id)
       response.send(clientsObj.id)
       response.end()
     })
@@ -25,7 +25,7 @@ module.exports = async (broker) => {
       }
 
       pollForNewClients()
-    }, 1000)
+    }, 1)
   }
 
   pollForNewClients()
